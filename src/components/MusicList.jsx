@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Typography, Container } from '@mui/material';
+import { Box, Typography, Container, Stack, Pagination } from '@mui/material';
 import MusicCard from './MusicCard';
 
 const MusicList = () => {
-    // Dados mock para demonstração
     const [musics] = useState([
         {
             id: 1,
@@ -49,6 +48,21 @@ const MusicList = () => {
         }
     ]);
 
+    
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
+    
+    const totalPages = Math.ceil(musics.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentMusics = musics.slice(startIndex, endIndex);
+
+    // Função para mudar de página
+    const handlePageChange = (event, page) => {
+        setCurrentPage(page);
+    };
+
     return (
         <Container maxWidth="md" sx={{ py: 4 }}>
             <Box sx={{ mb: 4, textAlign: 'center' }}>
@@ -72,7 +86,7 @@ const MusicList = () => {
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                {musics.map((music) => (
+                {currentMusics.map((music) => (
                     <MusicCard
                         key={music.id}
                         position={music.position}
@@ -82,6 +96,26 @@ const MusicList = () => {
                     />
                 ))}
             </Box>
+
+            {totalPages > 1 && (
+                <Stack spacing={2} alignItems="center">
+                    <Pagination
+                        count={totalPages}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                        color="primary"
+                        size="large"
+                        showFirstButton
+                        showLastButton
+                        sx={{
+                            '& .MuiPaginationItem-root': {
+                                fontSize: '1.1rem',
+                            }
+                        }}
+                    />
+                </Stack>
+            )} 
+
         </Container>
     );
 };
