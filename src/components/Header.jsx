@@ -64,7 +64,7 @@ const Header = () => {
             fontWeight: 'bold',
           }}
         >
-          Músicas para ouvir no seu Porsche
+          Top 5 Músicas Mais Tocadas
         </Typography>
 
         <Typography
@@ -72,9 +72,10 @@ const Header = () => {
           sx={{
             color: 'white',
             textAlign: 'center',
+            opacity: 0.8,
           }}
         >
-          As melhores
+          Tião Carreiro e Pardinho
         </Typography>
       </Container>
     </Box>
