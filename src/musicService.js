@@ -1,7 +1,7 @@
 import api from './api';
 
 export const musicService = {
-  // Buscar todas as músicas aprovadas
+  // Rotas públicas
   getMusics: async () => {
     try {
       const response = await api.get('/musicas');
@@ -11,7 +11,6 @@ export const musicService = {
     }
   },
 
-  // Buscar top 5 músicas
   getTop5: async () => {
     try {
       const response = await api.get('/musicas/top5');
@@ -21,23 +20,42 @@ export const musicService = {
     }
   },
 
-  // Sugerir nova música
   suggestMusic: async (musicData) => {
     try {
-      const response = await api.post('/musicas/sugerir', musicData);
+      const response = await api.post('/sugestoes', musicData);
       return response.data;
     } catch (error) {
       throw new Error(`Erro ao sugerir música: ${error.message}`);
     }
   },
 
-  // Buscar sugestões pendentes (apenas para usuários autenticados)
+
   getPendingSuggestions: async () => {
     try {
       const response = await api.get('/musicas/pendentes');
       return response.data;
     } catch (error) {
       throw new Error(`Erro ao buscar sugestões pendentes: ${error.message}`);
+    }
+  },
+
+  approveMusic: async (musicId, position = null) => {
+    try {
+      const response = await api.patch(`/musicas/${musicId}/aprovar`, {
+        posicao_top5: position
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(`Erro ao aprovar música: ${error.message}`);
+    }
+  },
+
+  rejectMusic: async (musicId) => {
+    try {
+      const response = await api.patch(`/musicas/${musicId}/reprovar`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Erro ao reprovar música: ${error.message}`);
     }
   }
 };
