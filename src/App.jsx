@@ -4,6 +4,7 @@ import { CssBaseline } from '@mui/material';
 import theme from './theme';
 import Header from './components/Header';
 import SuggestionCard from './components/SuggestionCard';
+import MusicList from './components/MusicList';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <div className="App">
         <Header />
         <SuggestionCard />
+        <MusicList />
       </div>
     </ThemeProvider>
   );
