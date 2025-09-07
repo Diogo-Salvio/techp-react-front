@@ -5,6 +5,8 @@ import {
     CardMedia,
     Typography,
     Box,
+    Button,
+    Stack,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { getThumbnailFromUrl } from '../utils/youtubeUtils';
@@ -87,6 +89,25 @@ const MusicCard = ({
                             {formatViews(views)} visualizações
                         </Typography>
                     </Box>
+
+                    {/* Botão Ver no YouTube */}
+                    {youtubeUrl && (
+                        <Box sx={{ mt: 1 }}>
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                href={youtubeUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                sx={{
+                                    textTransform: 'none',
+                                    fontSize: '0.875rem'
+                                }}
+                            >
+                                Ver no YouTube
+                            </Button>
+                        </Box>
+                    )}
                 </Box>
 
                 <CardMedia

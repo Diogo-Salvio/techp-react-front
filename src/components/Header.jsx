@@ -64,7 +64,7 @@ const Header = () => {
             fontWeight: 'bold',
           }}
         >
-          Top 5 Músicas Mais Tocadas
+          As Mais Tocadas de Tião Carreiro e Pardinho
         </Typography>
 
         <Typography
