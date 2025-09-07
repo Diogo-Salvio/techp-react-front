@@ -8,9 +8,7 @@ import {
     Button,
     Container,
     Alert,
-    CircularProgress,
-    Chip,
-    Divider
+    CircularProgress
 } from '@mui/material';
 import { musicService } from '../musicService';
 
@@ -27,17 +25,17 @@ const SuggestionCard = () => {
             // Regex para validar URL do YouTube
             const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
             const match = url.match(youtubeRegex);
-            
+
             if (!match) {
                 throw new Error('URL do YouTube inválida');
             }
 
             const videoId = match[1];
-            
+
             // Simular extração de dados (em produção, você usaria a YouTube API)
             // Por enquanto, vamos extrair o título da URL ou usar um placeholder
             const title = extractTitleFromUrl(url) || 'Título não encontrado';
-            
+
             return {
                 videoId,
                 title,
@@ -71,8 +69,10 @@ const SuggestionCard = () => {
 
         try {
             const data = await extractYouTubeData(musicLink);
-            setExtractedData(data);
-            setMessage({ type: 'success', text: 'Dados extraídos com sucesso!' });
+
+            // Enviar diretamente se o link for válido
+            await handleSubmit(data);
+
         } catch (error) {
             setMessage({ type: 'error', text: error.message });
             setExtractedData(null);
@@ -82,8 +82,10 @@ const SuggestionCard = () => {
     };
 
 
-    const handleSubmit = async () => {
-        if (!extractedData) {
+    const handleSubmit = async (data = null) => {
+        const musicData = data || extractedData;
+
+        if (!musicData) {
             setMessage({ type: 'error', text: 'Por favor, processe o link primeiro' });
             return;
         }
@@ -93,8 +95,8 @@ const SuggestionCard = () => {
 
         try {
             const response = await musicService.suggestMusic({
-                youtube_url: extractedData.url,
-                video_id: extractedData.videoId
+                youtube_url: musicData.url,
+                video_id: musicData.videoId
             });
 
             if (response.success) {
@@ -112,11 +114,6 @@ const SuggestionCard = () => {
     };
 
 
-    const handleClear = () => {
-        setMusicLink('');
-        setExtractedData(null);
-        setMessage({ type: '', text: '' });
-    };
 
     return (
         <Container maxWidth="md" sx={{ py: 4 }}>
@@ -173,7 +170,7 @@ const SuggestionCard = () => {
 
                             <Button
                                 onClick={handleProcessLink}
-                                variant="outlined"
+                                variant="contained"
                                 color="primary"
                                 disabled={loading || submitting || !musicLink.trim()}
                                 sx={{
@@ -181,13 +178,13 @@ const SuggestionCard = () => {
                                     height: 56,
                                 }}
                             >
-                                {loading ? <CircularProgress size={24} /> : 'Processar'}
+                                {loading || submitting ? <CircularProgress size={24} /> : 'Enviar Sugestão'}
                             </Button>
                         </Box>
 
                         {/* Mensagens */}
                         {message.text && (
-                            <Alert 
+                            <Alert
                                 severity={message.type === 'error' ? 'error' : 'success'}
                                 sx={{ width: '100%' }}
                             >
@@ -195,69 +192,6 @@ const SuggestionCard = () => {
                             </Alert>
                         )}
 
-                        {extractedData && (
-                            <Box sx={{ width: '100%' }}>
-                                <Divider sx={{ mb: 2 }} />
-                                <Typography variant="h6" sx={{ mb: 2 }}>
-                                    Preview da música:
-                                </Typography>
-                                
-                                <Box sx={{ 
-                                    display: 'flex', 
-                                    gap: 2, 
-                                    alignItems: 'center',
-                                    p: 2,
-                                    border: '1px solid',
-                                    borderColor: 'divider',
-                                    borderRadius: 1,
-                                    mb: 2
-                                }}>
-                                    <Box
-                                        component="img"
-                                        src={extractedData.thumbnail}
-                                        alt="Thumbnail"
-                                        sx={{
-                                            width: 80,
-                                            height: 60,
-                                            objectFit: 'cover',
-                                            borderRadius: 1
-                                        }}
-                                        onError={(e) => {
-                                            e.target.style.display = 'none';
-                                        }}
-                                    />
-                                    <Box sx={{ flexGrow: 1 }}>
-                                        <Typography variant="h6" sx={{ mb: 1 }}>
-                                            {extractedData.title}
-                                        </Typography>
-                                        <Chip 
-                                            label={`ID: ${extractedData.videoId}`} 
-                                            size="small" 
-                                            variant="outlined"
-                                        />
-                                    </Box>
-                                </Box>
-
-                                <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
-                                    <Button
-                                        onClick={handleSubmit}
-                                        variant="contained"
-                                        color="primary"
-                                        disabled={submitting}
-                                        sx={{ minWidth: 120 }}
-                                    >
-                                        {submitting ? <CircularProgress size={24} /> : 'Enviar Sugestão'}
-                                    </Button>
-                                    <Button
-                                        onClick={handleClear}
-                                        variant="outlined"
-                                        disabled={submitting}
-                                    >
-                                        Limpar
-                                    </Button>
-                                </Box>
-                            </Box>
-                        )}
                     </CardContent>
                 </Card>
             </Box>
