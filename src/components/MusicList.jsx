@@ -8,7 +8,7 @@ const MusicList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+
     const itemsPerPage = 5;
 
     // Função para carregar todas as músicas
@@ -16,9 +16,9 @@ const MusicList = () => {
         try {
             setLoading(true);
             setError(null);
-            
+
             const response = await musicService.getMusics();
-            
+
             if (response.success) {
                 setAllMusics(response.data);
             } else {
@@ -116,12 +116,13 @@ const MusicList = () => {
 
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 4 }}>
-                {currentMusics.map((music) => (
+                {currentMusics.map((music, index) => (
                     <MusicCard
                         key={music.id}
-                        position={music.posicao_top5 || music.id}
+                        position={startIndex + index + 1}
                         title={music.titulo}
                         views={music.visualizacoes}
+                        youtubeUrl={music.youtube_url || music.link || music.url}
                         thumbnail="/assets/tiao-carreiro-pardinho.png"
                     />
                 ))}
