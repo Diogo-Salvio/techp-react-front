@@ -32,12 +32,9 @@ export const musicService = {
   // Autenticação
   login: async (credentials) => {
     try {
-      console.log('musicService: Enviando credenciais:', credentials);
       const response = await api.post('/login', credentials);
-      console.log('musicService: Resposta recebida:', response.data);
       return response.data;
     } catch (error) {
-      console.error('musicService: Erro no login:', error);
       throw new Error(`Erro ao fazer login: ${error.message}`);
     }
   },
