@@ -10,7 +10,7 @@ import {
     Alert
 } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
-import MusicList from './MusicList';
+import AdminMusicList from './AdminMusicList';
 import PendingMusicList from './PendingMusicList';
 import LoginForm from './LoginForm';
 
@@ -170,7 +170,7 @@ const AdminView = () => {
                 </Box>
 
                 <TabPanel value={currentTab} index={0}>
-                    <MusicList />
+                    <AdminMusicList />
                 </TabPanel>
 
                 <TabPanel value={currentTab} index={1}>

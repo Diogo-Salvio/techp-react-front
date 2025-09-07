@@ -87,5 +87,15 @@ export const musicService = {
     } catch (error) {
       throw new Error(`Erro ao reprovar sugestão: ${error.message}`);
     }
+  },
+
+
+  deleteMusic: async (musicId) => {
+    try {
+      const response = await api.delete(`/musicas/${musicId}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Erro ao deletar música: ${error.message}`);
+    }
   }
 };
