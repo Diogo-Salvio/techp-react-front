@@ -30,32 +30,31 @@ export const musicService = {
   },
 
 
+  // Rotas protegidas (requerem autenticação)
   getPendingSuggestions: async () => {
     try {
-      const response = await api.get('/musicas/pendentes');
+      const response = await api.get('/sugestoes/pendentes');
       return response.data;
     } catch (error) {
       throw new Error(`Erro ao buscar sugestões pendentes: ${error.message}`);
     }
   },
 
-  approveMusic: async (musicId, position = null) => {
+  approveSuggestion: async (suggestionId) => {
     try {
-      const response = await api.patch(`/musicas/${musicId}/aprovar`, {
-        posicao_top5: position
-      });
+      const response = await api.patch(`/sugestoes/${suggestionId}/aprovar`);
       return response.data;
     } catch (error) {
-      throw new Error(`Erro ao aprovar música: ${error.message}`);
+      throw new Error(`Erro ao aprovar sugestão: ${error.message}`);
     }
   },
 
-  rejectMusic: async (musicId) => {
+  rejectSuggestion: async (suggestionId) => {
     try {
-      const response = await api.patch(`/musicas/${musicId}/reprovar`);
+      const response = await api.patch(`/sugestoes/${suggestionId}/reprovar`);
       return response.data;
     } catch (error) {
-      throw new Error(`Erro ao reprovar música: ${error.message}`);
+      throw new Error(`Erro ao reprovar sugestão: ${error.message}`);
     }
   }
 };

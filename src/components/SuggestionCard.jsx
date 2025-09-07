@@ -17,7 +17,7 @@ const SuggestionCard = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
 
-    // Função para extrair videoId do YouTube
+
     const extractVideoId = (url) => {
         const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
         const match = url.match(youtubeRegex);
@@ -90,7 +90,7 @@ const SuggestionCard = () => {
                             Sugerir nova música
                         </Typography>
 
-                        {/* Campo de entrada */}
+                        
                         <Box
                             sx={{
                                 display: 'flex',
@@ -126,7 +126,7 @@ const SuggestionCard = () => {
                             </Button>
                         </Box>
 
-                        {/* Mensagens */}
+                        
                         {message.text && (
                             <Alert
                                 severity={message.type === 'error' ? 'error' : 'success'}
