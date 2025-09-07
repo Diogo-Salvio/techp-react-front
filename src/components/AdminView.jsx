@@ -5,10 +5,14 @@ import {
     Tab,
     Typography,
     Container,
-    Paper
+    Paper,
+    Button,
+    Alert
 } from '@mui/material';
+import { useAuth } from '../contexts/AuthContext';
 import MusicList from './MusicList';
 import PendingMusicList from './PendingMusicList';
+import LoginForm from './LoginForm';
 
 function TabPanel({ children, value, index, ...other }) {
     return (
@@ -30,10 +34,88 @@ function TabPanel({ children, value, index, ...other }) {
 
 const AdminView = () => {
     const [currentTab, setCurrentTab] = useState(0);
+    const { user, loading, logout, isAdmin, isAuthenticated } = useAuth();
+
+    // Debug logs
+    console.log('AdminView: Estado atual:', {
+        user,
+        loading,
+        isAuthenticated,
+        isAdmin: isAdmin(),
+        userRole: user?.role,
+        userIsAdmin: user?.is_admin,
+        userAdmin: user?.admin
+    });
 
     const handleTabChange = (event, newValue) => {
         setCurrentTab(newValue);
     };
+
+    const handleLoginSuccess = (userData) => {
+
+        console.log('Login realizado com sucesso:', userData);
+    };
+
+    const handleLogout = async () => {
+        await logout();
+        setCurrentTab(0);
+    };
+
+
+    if (loading) {
+        return (
+            <Container maxWidth="lg" sx={{ py: 4, textAlign: 'center' }}>
+                <Typography variant="h6">Verificando autenticação...</Typography>
+            </Container>
+        );
+    }
+
+
+    if (!isAuthenticated) {
+        return (
+            <Container maxWidth="lg" sx={{ py: 4 }}>
+                <Box sx={{ mb: 4, textAlign: 'center' }}>
+                    <Typography
+                        variant="h2"
+                        component="h1"
+                        sx={{
+                            fontWeight: 'bold',
+                            color: 'primary.main',
+                            mb: 2
+                        }}
+                    >
+                        Painel Administrativo
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        color="text.secondary"
+                    >
+                        Faça login para acessar as funcionalidades administrativas
+                    </Typography>
+                </Box>
+
+                <LoginForm onLoginSuccess={handleLoginSuccess} />
+            </Container>
+        );
+    }
+
+
+    if (!isAdmin()) {
+        return (
+            <Container maxWidth="lg" sx={{ py: 4 }}>
+                <Alert severity="warning" sx={{ mb: 2 }}>
+                    Você não tem permissão para acessar o painel administrativo.
+                </Alert>
+                <Alert severity="info" sx={{ mb: 2 }}>
+                    <strong>Debug:</strong> Usuário: {JSON.stringify(user, null, 2)}
+                </Alert>
+                <Button variant="contained" onClick={handleLogout}>
+                    Fazer Logout
+                </Button>
+            </Container>
+        );
+    }
+
 
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -52,9 +134,18 @@ const AdminView = () => {
                 <Typography
                     variant="h6"
                     color="text.secondary"
+                    sx={{ mb: 2 }}
                 >
-                    Gerenciar músicas aprovadas e sugestões pendentes
+                    Bem-vindo, {user?.name || user?.email}!
                 </Typography>
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleLogout}
+                    size="small"
+                >
+                    Logout
+                </Button>
             </Box>
 
             <Paper sx={{ width: '100%' }}>
