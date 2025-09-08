@@ -5,7 +5,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - REACT_APP_API_URL=http://localhost:8000/api
+      - REACT_APP_API_URL=http://host.docker.internal:8000/api
     volumes:
       # Para desenvolvimento - monta o código fonte
       - .:/app
