@@ -1,46 +1,55 @@
-# Getting Started with Create React App
+# Top 5 - As Mais Tocadas de Tião Carreiro e Pardinho
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+As Mais Tocadas de Tião Carreiro e Pardinho
 
-## Available Scripts
+## Como Rodar
 
-In the project directory, you can run:
+```bash
+# 1. Clone o repositório
+git clone <url-do-repositorio>
+cd react-frontend
 
-### `npm start`
+# 2. Inicie com Docker
+docker-compose up --build
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# 3. Acesse: http://localhost:3000
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+**Pré-requisito**: Docker e Docker Compose instalados
 
-### `npm test`
+## Funcionalidades
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Sugerir músicas via YouTube
+- Visualizar músicas aprovadas
+- Painel administrativo para gerenciar sugestões
+- Aprovar/reprovar sugestões
+- Remover músicas aprovadas
 
-### `npm run build`
+## Credenciais Admin
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Email**: `fanumero1dotiaoecarreiro@admin.com`
+- **Senha**: `boisoberano`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Comandos Úteis
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+# Parar aplicação
+docker-compose down
 
-### `npm run eject`
+# Ver logs
+docker-compose logs -f frontend
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Executar testes
+docker-compose exec frontend npm test
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Entrar no container
+docker-compose exec frontend sh
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Tecnologias
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- React 18
+- Material-UI
+- Axios
+- Docker
+- Jest + React Testing Library
