@@ -32,23 +32,30 @@ const AdminMusicList = () => {
         }
     }, []);
 
-    // Carregar músicas na montagem do componente
+
     useEffect(() => {
         loadMusics();
     }, [loadMusics]);
 
-    // Função para remover música da lista após exclusão
     const handleMusicDeleted = useCallback((musicId) => {
         setAllMusics(prev => prev.filter(music => music.id !== musicId));
     }, []);
 
-    // Calcular dados da paginação
+
+    const handleMusicUpdated = useCallback((musicId, updatedData) => {
+        setAllMusics(prev => prev.map(music =>
+            music.id === musicId
+                ? { ...music, ...updatedData }
+                : music
+        ));
+    }, []);
+
+
     const totalPages = Math.ceil(allMusics.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentMusics = allMusics.slice(startIndex, endIndex);
 
-    // Função para mudar de página
     const handlePageChange = (event, page) => {
         setCurrentPage(page);
     };
@@ -130,6 +137,7 @@ const AdminMusicList = () => {
                         thumbnail="/assets/tiao-carreiro-pardinho.png"
                         musicId={music.id}
                         onMusicDeleted={handleMusicDeleted}
+                        onMusicUpdated={handleMusicUpdated}
                     />
                 ))}
             </Box>

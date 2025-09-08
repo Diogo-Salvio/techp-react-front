@@ -11,7 +11,8 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogActions
+    DialogActions,
+    TextField
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { getThumbnailFromUrl } from '../utils/youtubeUtils';
@@ -30,11 +31,14 @@ const AdminMusicCard = ({
     thumbnail = "/assets/tiao-carreiro-pardinho.png",
     youtubeUrl = null,
     musicId,
-    onMusicDeleted
+    onMusicDeleted,
+    onMusicUpdated
 }) => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
     const [confirmDialog, setConfirmDialog] = useState(false);
+    const [editDialog, setEditDialog] = useState(false);
+    const [newYoutubeUrl, setNewYoutubeUrl] = useState(youtubeUrl || '');
 
     const formatViews = (numViews) => {
         if (numViews >= 1000000) {
@@ -77,6 +81,35 @@ const AdminMusicCard = ({
         }
     }, [musicId, onMusicDeleted]);
 
+    const handleUpdateUrl = useCallback(async () => {
+        if (!newYoutubeUrl.trim()) {
+            setMessage({ type: 'error', text: 'Por favor, insira um link válido' });
+            return;
+        }
+
+        setLoading(true);
+        setMessage({ type: '', text: '' });
+
+        try {
+            const response = await musicService.updateMusic(musicId, { youtube_url: newYoutubeUrl });
+
+            if (response.success) {
+                setMessage({ type: 'success', text: 'Link atualizado com sucesso!' });
+                setEditDialog(false);
+                // Notificar o componente pai sobre a atualização
+                if (onMusicUpdated) {
+                    onMusicUpdated(musicId, { youtube_url: newYoutubeUrl });
+                }
+            } else {
+                throw new Error(response.message);
+            }
+        } catch (error) {
+            setMessage({ type: 'error', text: error.message });
+        } finally {
+            setLoading(false);
+        }
+    }, [musicId, newYoutubeUrl, onMusicUpdated]);
+
     const handleConfirmDelete = () => {
         setConfirmDialog(true);
     };
@@ -85,10 +118,23 @@ const AdminMusicCard = ({
         setConfirmDialog(false);
     };
 
+    const handleOpenEdit = () => {
+        setNewYoutubeUrl(youtubeUrl || '');
+        setEditDialog(true);
+        setMessage({ type: '', text: '' });
+    };
+
+    const handleCloseEdit = () => {
+        setEditDialog(false);
+        setNewYoutubeUrl(youtubeUrl || '');
+    };
+
+    console.log('AdminMusicCard renderizando:', { title, musicId, youtubeUrl });
+
     return (
         <>
             <StyledCard elevation={2}>
-                <Box sx={{ display: 'flex', alignItems: 'center', p: 2, width: '100%' }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', p: 2, width: '100%' }}>
                     {/* Posição */}
                     <Box sx={{
                         display: 'flex',
@@ -101,27 +147,14 @@ const AdminMusicCard = ({
                         color: 'white',
                         mr: 2,
                         fontWeight: 'bold',
-                        fontSize: '1.1rem'
+                        fontSize: '1.1rem',
+                        flexShrink: 0
                     }}>
                         {position}
                     </Box>
 
-                    {/* Thumbnail */}
-                    <CardMedia
-                        component="img"
-                        sx={{
-                            width: 80,
-                            height: 80,
-                            borderRadius: 1,
-                            mr: 2,
-                            objectFit: 'cover'
-                        }}
-                        image={getThumbnail()}
-                        alt={`Thumbnail da música: ${title}`}
-                    />
 
-                    {/* Informações da música */}
-                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                    <Box sx={{ flexGrow: 1, minWidth: 0, mr: 2 }}>
                         <Typography
                             variant="h6"
                             component="h3"
@@ -146,7 +179,24 @@ const AdminMusicCard = ({
                             </Typography>
                         </Box>
 
-                        {/* Mensagens de feedback */}
+
+                        {youtubeUrl && (
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
+                                sx={{
+                                    display: 'block',
+                                    mb: 1,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap'
+                                }}
+                            >
+                                Link: {youtubeUrl}
+                            </Typography>
+                        )}
+
+
                         {message.text && (
                             <Alert
                                 severity={message.type === 'error' ? 'error' : 'success'}
@@ -156,31 +206,103 @@ const AdminMusicCard = ({
                             </Alert>
                         )}
 
-                        {/* Botões de ação */}
-                        <Stack direction="row" spacing={1}>
-                            <Button
-                                variant="outlined"
-                                size="small"
-                                href={youtubeUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Ver no YouTube
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color="error"
-                                size="small"
-                                onClick={handleConfirmDelete}
-                                disabled={loading}
-                                startIcon={loading ? <CircularProgress size={16} /> : null}
-                            >
-                                Remover
-                            </Button>
-                        </Stack>
+
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                                <Button
+                                    variant="outlined"
+                                    size="small"
+                                    href={youtubeUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Ver no YouTube
+                                </Button>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    size="small"
+                                    onClick={handleOpenEdit}
+                                    disabled={loading}
+                                    sx={{
+                                        backgroundColor: 'lightblue',
+                                        border: '2px solid red',
+                                        minWidth: '100px'
+                                    }}
+                                >
+                                    Editar Link
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="error"
+                                    size="small"
+                                    onClick={handleConfirmDelete}
+                                    disabled={loading}
+                                    startIcon={loading ? <CircularProgress size={16} /> : null}
+                                >
+                                    Remover
+                                </Button>
+                            </Box>
+                        </Box>
                     </Box>
+
+                    {/* Thumbnail */}
+                    <CardMedia
+                        component="img"
+                        sx={{
+                            width: 80,
+                            height: 80,
+                            borderRadius: 1,
+                            objectFit: 'cover',
+                            flexShrink: 0
+                        }}
+                        image={getThumbnail()}
+                        alt={`Thumbnail da música: ${title}`}
+                    />
                 </Box>
             </StyledCard>
+
+            {/* Dialog de edição */}
+            <Dialog
+                open={editDialog}
+                onClose={handleCloseEdit}
+                aria-labelledby="edit-dialog-title"
+                maxWidth="sm"
+                fullWidth
+            >
+                <DialogTitle id="edit-dialog-title">
+                    Editar Link do YouTube
+                </DialogTitle>
+                <DialogContent>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        Música: <strong>{title}</strong>
+                    </Typography>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Link do YouTube"
+                        placeholder="https://www.youtube.com/watch?v=..."
+                        fullWidth
+                        variant="outlined"
+                        value={newYoutubeUrl}
+                        onChange={(e) => setNewYoutubeUrl(e.target.value)}
+                        disabled={loading}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseEdit} disabled={loading}>
+                        Cancelar
+                    </Button>
+                    <Button
+                        onClick={handleUpdateUrl}
+                        variant="contained"
+                        disabled={loading || !newYoutubeUrl.trim()}
+                        startIcon={loading ? <CircularProgress size={16} /> : null}
+                    >
+                        Salvar
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             {/* Dialog de confirmação */}
             <Dialog

@@ -94,5 +94,14 @@ export const musicService = {
     } catch (error) {
       throw new Error(`Erro ao deletar música: ${error.message}`);
     }
+  },
+
+  updateMusic: async (musicId, musicData) => {
+    try {
+      const response = await api.patch(`/musicas/${musicId}`, musicData);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Erro ao atualizar música: ${error.message}`);
+    }
   }
 };
