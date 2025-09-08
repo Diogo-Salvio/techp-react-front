@@ -1,7 +1,6 @@
 import { musicService } from '../musicService';
 import api from '../api';
 
-// Mock do axios
 jest.mock('../api', () => ({
     get: jest.fn(),
     post: jest.fn(),

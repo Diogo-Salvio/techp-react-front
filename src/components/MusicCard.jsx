@@ -33,7 +33,6 @@ const MusicCard = ({
         return numViews.toString();
     };
 
-    // Determina qual thumbnail usar: YouTube ou fallback
     const getThumbnail = () => {
         if (youtubeUrl) {
             const youtubeThumbnail = getThumbnailFromUrl(youtubeUrl);
@@ -88,9 +87,8 @@ const MusicCard = ({
                         >
                             {formatViews(views)} visualizações
                         </Typography>
-                    </Box>
-
-                    {/* Botão Ver no YouTube */}
+                    </Box>  
+                    
                     {youtubeUrl && (
                         <Box sx={{ mt: 1 }}>
                             <Button

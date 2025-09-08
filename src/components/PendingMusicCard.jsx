@@ -92,7 +92,7 @@ const PendingMusicCard = ({
     return (
         <StyledCard elevation={2}>
             <Box sx={{ display: 'flex', alignItems: 'center', p: 2, width: '100%' }}>
-                {/* Thumbnail */}
+
                 <CardMedia
                     component="img"
                     sx={{
@@ -106,7 +106,7 @@ const PendingMusicCard = ({
                     alt={`Thumbnail da música: ${music.titulo || 'Música pendente'}`}
                 />
 
-                {/* Informações da música */}
+
                 <Box sx={{ flexGrow: 1, minWidth: 0 }}>
                     <Typography
                         variant="h6"
@@ -130,7 +130,6 @@ const PendingMusicCard = ({
                         Sugerida em: {new Date(music.created_at).toLocaleDateString('pt-BR')}
                     </Typography>
 
-                    {/* Mensagens de feedback */}
                     {message.text && (
                         <Alert
                             severity={message.type === 'error' ? 'error' : 'success'}
@@ -140,7 +139,6 @@ const PendingMusicCard = ({
                         </Alert>
                     )}
 
-                    {/* Botões de ação */}
                     <Stack direction="row" spacing={1}>
                         <Button
                             variant="contained"

@@ -43,7 +43,6 @@ const LoginForm = ({ onLoginSuccess }) => {
             const result = await login(formData);
 
             if (result.success) {
-                // Login bem-sucedido - o contexto já gerencia o estado
                 onLoginSuccess && onLoginSuccess();
             } else {
                 setError(result.message || 'Erro ao fazer login');

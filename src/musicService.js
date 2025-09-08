@@ -1,7 +1,7 @@
 import api from './api';
 
 export const musicService = {
-  // Rotas públicas
+
   getMusics: async () => {
     try {
       const response = await api.get('/musicas');
@@ -29,7 +29,7 @@ export const musicService = {
     }
   },
 
-  // Autenticação
+
   login: async (credentials) => {
     try {
       const response = await api.post('/login', credentials);
@@ -58,7 +58,7 @@ export const musicService = {
   },
 
 
-  // Rotas protegidas (requerem autenticação)
+  // Rotas protegidas que necessitam de autenticação
   getPendingSuggestions: async () => {
     try {
       const response = await api.get('/sugestoes/pendentes');

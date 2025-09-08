@@ -9,7 +9,6 @@ export const extractVideoId = (url) => {
     if (!url) return null;
 
     try {
-        // Regex para validar URL do YouTube
         const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
         const match = url.match(youtubeRegex);
 
@@ -29,7 +28,7 @@ export const extractVideoId = (url) => {
 export const getYouTubeThumbnail = (videoId) => {
     if (!videoId) return null;
 
-    // Tenta primeiro a thumbnail de alta resolução
+
     return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 };
 

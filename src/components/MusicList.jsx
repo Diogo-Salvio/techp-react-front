@@ -11,7 +11,7 @@ const MusicList = () => {
 
     const itemsPerPage = 5;
 
-    // Função para carregar todas as músicas
+
     const loadMusics = async () => {
         try {
             setLoading(true);
@@ -32,18 +32,17 @@ const MusicList = () => {
         }
     };
 
-    // Carregar músicas na montagem do componente
+
     useEffect(() => {
         loadMusics();
     }, []);
 
-    // Calcular dados da paginação
+
     const totalPages = Math.ceil(allMusics.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentMusics = allMusics.slice(startIndex, endIndex);
 
-    // Função para mudar de página
     const handlePageChange = (event, page) => {
         setCurrentPage(page);
     };

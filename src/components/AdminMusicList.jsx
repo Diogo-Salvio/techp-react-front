@@ -11,7 +11,7 @@ const AdminMusicList = () => {
 
     const itemsPerPage = 5;
 
-    // Função para carregar todas as músicas
+
     const loadMusics = useCallback(async () => {
         try {
             setLoading(true);

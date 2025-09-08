@@ -49,7 +49,7 @@ const AdminMusicCard = ({
         return numViews.toString();
     };
 
-    // Função para extrair o ID do vídeo do YouTube (mesma validação do SuggestionCard)
+
     const extractVideoId = (url) => {
         const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
         const match = url.match(youtubeRegex);
@@ -61,7 +61,7 @@ const AdminMusicCard = ({
         return match[1];
     };
 
-    // Determina qual thumbnail usar: YouTube ou fallback
+
     const getThumbnail = () => {
         if (youtubeUrl) {
             const youtubeThumbnail = getThumbnailFromUrl(youtubeUrl);
@@ -103,7 +103,7 @@ const AdminMusicCard = ({
         setMessage({ type: '', text: '' });
 
         try {
-            // Validar a URL do YouTube antes de enviar
+
             const videoId = extractVideoId(newYoutubeUrl);
 
             const response = await musicService.updateMusic(musicId, { youtube_url: newYoutubeUrl });
@@ -111,7 +111,7 @@ const AdminMusicCard = ({
             if (response.success) {
                 setMessage({ type: 'success', text: 'Link atualizado com sucesso!' });
                 setEditDialog(false);
-                // Notificar o componente pai sobre a atualização
+
                 if (onMusicUpdated) {
                     onMusicUpdated(musicId, { youtube_url: newYoutubeUrl });
                 }

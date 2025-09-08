@@ -85,7 +85,6 @@ export const AuthProvider = ({ children }) => {
         console.log('AuthContext: user.is_admin:', user?.is_admin);
         console.log('AuthContext: user.admin:', user?.admin);
 
-        // Verificar diferentes possibilidades de campo admin
         return user && (
             user.role === 'admin' ||
             user.is_admin === true ||
