@@ -49,6 +49,18 @@ const AdminMusicCard = ({
         return numViews.toString();
     };
 
+    // Função para extrair o ID do vídeo do YouTube (mesma validação do SuggestionCard)
+    const extractVideoId = (url) => {
+        const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+        const match = url.match(youtubeRegex);
+
+        if (!match) {
+            throw new Error('URL do YouTube inválida');
+        }
+
+        return match[1];
+    };
+
     // Determina qual thumbnail usar: YouTube ou fallback
     const getThumbnail = () => {
         if (youtubeUrl) {
@@ -91,6 +103,9 @@ const AdminMusicCard = ({
         setMessage({ type: '', text: '' });
 
         try {
+            // Validar a URL do YouTube antes de enviar
+            const videoId = extractVideoId(newYoutubeUrl);
+
             const response = await musicService.updateMusic(musicId, { youtube_url: newYoutubeUrl });
 
             if (response.success) {

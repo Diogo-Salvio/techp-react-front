@@ -1,1 +1,20 @@
-
+{
+    "short_name": "Top 5 Tião Carreiro",
+    "name": "Top 5 Tião Carreiro - Músicas Mais Tocadas",
+    "icons": [
+        {
+            "src": "assets/tiao-carreiro-pardinho.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/tiao-carreiro-pardinho.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+}
