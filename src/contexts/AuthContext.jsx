@@ -48,15 +48,12 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            console.log('AuthContext: Iniciando login...');
             const response = await musicService.login(credentials);
-            console.log('AuthContext: Resposta do login:', response);
 
             if (response.success) {
                 localStorage.setItem('auth_token', response.data.token);
                 localStorage.setItem('user_data', JSON.stringify(response.data.user));
                 setUser(response.data.user);
-                console.log('AuthContext: Usuário definido:', response.data.user);
                 return { success: true };
             }
             return { success: false, message: response.message };
@@ -80,10 +77,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     const isAdmin = () => {
-        console.log('AuthContext: Verificando se é admin. User:', user);
-        console.log('AuthContext: user.role:', user?.role);
-        console.log('AuthContext: user.is_admin:', user?.is_admin);
-        console.log('AuthContext: user.admin:', user?.admin);
 
         return user && (
             user.role === 'admin' ||

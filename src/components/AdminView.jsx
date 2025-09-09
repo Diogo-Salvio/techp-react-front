@@ -36,16 +36,6 @@ const AdminView = () => {
     const [currentTab, setCurrentTab] = useState(0);
     const { user, loading, logout, isAdmin, isAuthenticated } = useAuth();
 
-    // Debug logs
-    console.log('AdminView: Estado atual:', {
-        user,
-        loading,
-        isAuthenticated,
-        isAdmin: isAdmin(),
-        userRole: user?.role,
-        userIsAdmin: user?.is_admin,
-        userAdmin: user?.admin
-    });
 
     const handleTabChange = (event, newValue) => {
         setCurrentTab(newValue);

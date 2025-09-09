@@ -196,7 +196,6 @@ const AdminMusicCard = ({
         setNewYoutubeUrl(currentYoutubeUrl || '');
     };
 
-    console.log('AdminMusicCard renderizando:', { title, musicId, youtubeUrl });
 
     return (
         <>
