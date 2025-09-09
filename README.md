@@ -6,11 +6,11 @@ As Mais Tocadas de Tião Carreiro e Pardinho
 
 ```bash
 # 1. Clone o repositório
-git clone <url-do-repositorio>
-cd react-frontend
+git clone [https://github.com/Diogo-Salvio/techp-react-front]
+cd techp-react-front
 
 # 2. Inicie com Docker
-docker-compose up --build
+docker compose up --build
 
 # 3. Acesse: http://localhost:3000
 ```
@@ -29,22 +29,6 @@ docker-compose up --build
 
 - **Email**: `fanumero1dotiaoecarreiro@admin.com`
 - **Senha**: `boisoberano`
-
-## Comandos Úteis
-
-```bash
-# Parar aplicação
-docker-compose down
-
-# Ver logs
-docker-compose logs -f frontend
-
-# Executar testes
-docker-compose exec frontend npm test
-
-# Entrar no container
-docker-compose exec frontend sh
-```
 
 ## Tecnologias
 
