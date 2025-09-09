@@ -1,12 +1,12 @@
 # Top 5 - As Mais Tocadas de Tião Carreiro e Pardinho
 
-As Mais Tocadas de Tião Carreiro e Pardinho
+Uma aplicação web que permite aos fãs de Tião Carreiro e Pardinho sugerir suas músicas favoritas via YouTube e visualizar o ranking das mais tocadas. O sistema inclui um painel administrativo completo para gerenciar sugestões e manter o top atualizado.
 
 ## Como Rodar
 
 ```bash
 # 1. Clone o repositório
-git clone [https://github.com/Diogo-Salvio/techp-react-front]
+git clone `https://github.com/Diogo-Salvio/techp-react-front.git`
 cd techp-react-front
 
 # 2. Inicie com Docker
@@ -19,11 +19,12 @@ docker compose up --build
 
 ## Funcionalidades
 
-- Sugerir músicas via YouTube
-- Visualizar músicas aprovadas
-- Painel administrativo para gerenciar sugestões
-- Aprovar/reprovar sugestões
-- Remover músicas aprovadas
+- **Sugestão de Músicas**: Usuários podem sugerir músicas via links do YouTube
+- **Visualização do Top 5**: Interface para visualizar as músicas aprovadas e mais tocadas
+- **Painel Administrativo**: Área restrita para administradores gerenciarem o conteúdo
+- **Moderação de Conteúdo**: Sistema para aprovar/reprovar sugestões de usuários
+- **Gerenciamento de Músicas**: Funcionalidade para remover músicas aprovadas quando necessário
+- **Atualização Automática**: Sistema que atualiza automaticamente título, thumbnail e visualizações ao alterar links do YouTube
 
 ## Credenciais Admin
 
